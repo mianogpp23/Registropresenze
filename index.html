@@ -22,7 +22,7 @@ label { font-weight: 700; display: block; margin: 10px 0 5px 0; font-size: 0.85r
 select, input {
     width: 100%; padding: 12px; border: 1px solid #ccc;
     border-radius: 10px; font-size: 16px; background: #fff;
-    -webkit-appearance: none; /* Rimuove stile default Safari */
+    -webkit-appearance: none; 
 }
 table { width: 100%; border-collapse: collapse; margin-top: 10px; }
 th, td { padding: 12px 8px; text-align: left; border-bottom: 1px solid #eee; }
@@ -72,7 +72,7 @@ th { background: #f8f9fa; color: #666; font-size: 0.75rem; text-transform: upper
 </head>
 <body>
 
-<h1>🏀 REGISTRO PRESENZE ALLENAMENTI VALL'IPPARI BASKET</h1>
+<h1>🏀 REGISTRO PRESENZE VALL'IPPARI BASKET</h1>
 
 <div class="card no-print">
     <div style="display:flex; gap:8px;">
@@ -145,6 +145,7 @@ th { background: #f8f9fa; color: #666; font-size: 0.75rem; text-transform: upper
 </div>
 
 <script>
+// ELENCO AGGIORNATO CON VASILE GIOVANNI E DIANO FRANCESCO
 const atleti = [
     {n:'Cirnigliaro Lorenzo', a:2019}, {n:'Lo Cicero Francesco', a:2019},
     {n:'Bulcassimo Raffaele', a:2018}, {n:'Cilio Nicoló Savio', a:2018},
@@ -157,6 +158,7 @@ const atleti = [
     {n:'Baeli Giulio', a:2016}, {n:'Bertolone Matteo', a:2016},
     {n:'Brugoletta Nicoló Maria', a:2016}, {n:'Cilio Angelo', a:2016},
     {n:"D'Agosta Gaetano", a:2016}, {n:'Incardona Luca', a:2016},
+    {n:'Diano Francesco', a:2016}, 
     {n:'Battaglia Lorenzo', a:2015}, {n:'Campagnolo Francesco', a:2015},
     {n:'Cassarino Vincenzo', a:2015}, {n:'La Rosa Matteo', a:2015},
     {n:'Lorefice Thomas', a:2015}, {n:'Occhipinti Nathan Rosario', a:2015},
@@ -164,13 +166,13 @@ const atleti = [
     {n:'Blanco Alessio', a:2014}, {n:'Gurrieri Raffael Emanuel', a:2014},
     {n:'Longombardo Matteo', a:2014}, {n:'Puglisi Marco', a:2014},
     {n:'Rotante Leonardo', a:2014}, {n:'Sbezzo Andrea', a:2014},
-    {n:'Scifo Andrea', a:2014}, {n:'Siciliano Mattia', a:2014}
+    {n:'Scifo Andrea', a:2014}, {n:'Siciliano Mattia', a:2014},
+    {n:'Vasile Giovanni', a:2014}
 ].sort((a, b) => a.n.localeCompare(b.n));
 
 let presenze = new Set();
 const DB_KEY = 'vbasket_safari_v1';
 
-// Inizializzazione date
 const ora = new Date();
 document.getElementById('dataAllenamento').valueAsDate = ora;
 document.getElementById('dataStorico').valueAsDate = ora;
@@ -213,14 +215,12 @@ function aggiornaAnteprima() {
     if(arr.length > 0) {
         box.innerText = `*PRESENTI ${document.getElementById('dataAllenamento').value}*\nTotale: ${arr.length}\n----------\n- ` + arr.join('\n- ');
     } else {
-        box.innerText = "Nessun atleta selezionato";
+        box.innerText = "Tocca un nome per iniziare...";
     }
 }
 
-// FIX IMPORT SAFARI
 document.getElementById('btnFakeImport').onclick = () => document.getElementById('importFile').click();
 
-// CARICA STORICO
 document.getElementById('btnCaricaStorico').onclick = () => {
     const data = document.getElementById('dataStorico').value;
     const reg = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
@@ -231,7 +231,6 @@ document.getElementById('btnCaricaStorico').onclick = () => {
     } else alert("Dati non trovati");
 };
 
-// STATISTICHE
 document.getElementById('btnCalcolaStats').onclick = () => {
     const mese = document.getElementById('meseStats').value;
     const reg = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
@@ -261,11 +260,11 @@ document.getElementById('btnSalva').onclick = () => {
     const reg = JSON.parse(localStorage.getItem(DB_KEY) || '{}');
     reg[document.getElementById('dataAllenamento').value] = Array.from(presenze);
     localStorage.setItem(DB_KEY, JSON.stringify(reg));
-    alert("Salvato!");
+    alert("Salvato correttamente!");
 };
 
 document.getElementById('btnReset').onclick = () => {
-    if(confirm("Svuotare?")) { presenze.clear(); aggiornaAnteprima(); }
+    if(confirm("Svuotare la lista attuale?")) { presenze.clear(); aggiornaAnteprima(); }
 };
 
 document.getElementById('btnExport').onclick = () => {
